@@ -66,6 +66,52 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hexo每次部署后，github仓库的域名都会变更" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/23/hexo%E6%AF%8F%E6%AC%A1%E9%83%A8%E7%BD%B2%E5%90%8E%EF%BC%8Cgithub%E4%BB%93%E5%BA%93%E7%9A%84%E5%9F%9F%E5%90%8D%E9%83%BD%E4%BC%9A%E5%8F%98%E6%9B%B4/" class="article-date">
+  <time datetime="2020-09-23T06:28:36.000Z" itemprop="datePublished">2020-09-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/23/hexo%E6%AF%8F%E6%AC%A1%E9%83%A8%E7%BD%B2%E5%90%8E%EF%BC%8Cgithub%E4%BB%93%E5%BA%93%E7%9A%84%E5%9F%9F%E5%90%8D%E9%83%BD%E4%BC%9A%E5%8F%98%E6%9B%B4/">hexo每次部署后，github仓库的域名都会变更</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>之所以每次推送都会变更是因为我们没有配置CNAME文件，所以每次推送后会重置域名，进行三步操作</p>
+<ol>
+<li>在source根目录创建CNAME文件，文件内写自己的域名或者ip地址</li>
+<li>hexo g重新生成静态文件</li>
+<li>hexo clean &amp;&amp; hexo deploy部署之github<br>就可以正常访问了</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">保留问题：</span><br><span class="line">CNAME的作用原理是什么？</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zwdong.cn/2020/09/23/hexo%E6%AF%8F%E6%AC%A1%E9%83%A8%E7%BD%B2%E5%90%8E%EF%BC%8Cgithub%E4%BB%93%E5%BA%93%E7%9A%84%E5%9F%9F%E5%90%8D%E9%83%BD%E4%BC%9A%E5%8F%98%E6%9B%B4/" data-id="ckff2cqqe0001zkrf568tbfim" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-hexo部署之github-page报错" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/09/23/hexo%E9%83%A8%E7%BD%B2%E4%B9%8Bgithub-page%E6%8A%A5%E9%94%99/" class="article-date">
@@ -115,7 +161,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zwdong.cn/2020/09/23/hexo%E9%83%A8%E7%BD%B2%E4%B9%8Bgithub-page%E6%8A%A5%E9%94%99/" data-id="ckff08yoj00002crf9mtsbu2c" class="article-share-link">Share</a>
+      <a data-url="https://zwdong.cn/2020/09/23/hexo%E9%83%A8%E7%BD%B2%E4%B9%8Bgithub-page%E6%8A%A5%E9%94%99/" data-id="ckff2cqqq0002zkrfeocs86tg" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
@@ -166,7 +212,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zwdong.cn/2020/09/22/hello-world/" data-id="ckff08yor00012crf6uny0grj" class="article-share-link">Share</a>
+      <a data-url="https://zwdong.cn/2020/09/22/hello-world/" data-id="ckff2cqq60000zkrf8k5ogmsl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -219,6 +265,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/09/23/hexo%E6%AF%8F%E6%AC%A1%E9%83%A8%E7%BD%B2%E5%90%8E%EF%BC%8Cgithub%E4%BB%93%E5%BA%93%E7%9A%84%E5%9F%9F%E5%90%8D%E9%83%BD%E4%BC%9A%E5%8F%98%E6%9B%B4/">hexo每次部署后，github仓库的域名都会变更</a>
+          </li>
         
           <li>
             <a href="/2020/09/23/hexo%E9%83%A8%E7%BD%B2%E4%B9%8Bgithub-page%E6%8A%A5%E9%94%99/">hexo部署之github page报错</a>
