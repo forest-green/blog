@@ -207,6 +207,20 @@
               <span class="post-meta-item-text">阅读次数：</span>
               <span id="busuanzi_value_page_pv"></span>
             </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/09/23/hexo%E6%AF%8F%E6%AC%A1%E9%83%A8%E7%BD%B2%E5%90%8E%EF%BC%8Cgithub%E4%BB%93%E5%BA%93%E7%9A%84%E5%9F%9F%E5%90%8D%E9%83%BD%E4%BC%9A%E5%8F%98%E6%9B%B4/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/09/23/hexo每次部署后，github仓库的域名都会变更/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -262,6 +276,13 @@
 
           </div>
           
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -329,8 +350,10 @@
         </a>
       </div>
       <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
         <span class="site-state-item-count">2</span>
-        <span class="site-state-item-name">标签</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -435,6 +458,37 @@
   
 
   
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://zwdong.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://zwdong.cn/2020/09/23/hexo%E6%AF%8F%E6%AC%A1%E9%83%A8%E7%BD%B2%E5%90%8E%EF%BC%8Cgithub%E4%BB%93%E5%BA%93%E7%9A%84%E5%9F%9F%E5%90%8D%E9%83%BD%E4%BC%9A%E5%8F%98%E6%9B%B4/";
+    this.page.identifier = "2020/09/23/hexo每次部署后，github仓库的域名都会变更/";
+    this.page.title = "hexo每次部署后，github仓库的域名都会变更";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://zwdong.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
 
 </body>
 </html>
