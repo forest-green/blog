@@ -168,6 +168,159 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zwdong.cn/2021/02/20/docker%E5%AE%9E%E8%B7%B5-1/">
+    
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ZW Dong">
+      <meta itemprop="description" content="web vue nodejs 微信公众号 微信小程序">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="竹林深处的小屋">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/20/docker%E5%AE%9E%E8%B7%B5-1/" class="post-title-link" itemprop="url">docker实践(1)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-02-20 14:52:37 / 修改时间：15:31:24" itemprop="dateCreated datePublished" datetime="2021-02-20T14:52:37+08:00">2021-02-20</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/02/20/docker%E5%AE%9E%E8%B7%B5-1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/02/20/docker实践-1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="使用docker部署简单的项目"><a href="#使用docker部署简单的项目" class="headerlink" title="使用docker部署简单的项目"></a>使用docker部署简单的项目</h1><p>目的：记录一下学习docker部署简单项目的思路</p>
+<p>思路：</p>
+<ol>
+<li><p>使用docker pull拉取相应的镜像源</p>
+</li>
+<li><p>创建Dockerfile文件，编写配置文件</p>
+</li>
+<li><p>docker build 运行Dockerfile文件，使用其配置创建新的镜像</p>
+</li>
+<li><p>docker run 创建容器并运行</p>
+</li>
+</ol>
+<p>   此处借用一下官方的逻辑图</p>
+<p><img src="/2021/02/20/docker%E5%AE%9E%E8%B7%B5-1/architecture.svg" alt="docker逻辑图"></p>
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>环境：CentOS 7</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用yum安装docker  此处因使用的个人服务器，是最高权限</span></span><br><span class="line">sudo yum install docker</span><br></pre></td></tr></table></figure>
+
+<p>使用docker -v或者docker可以检测是否安装成功</p>
+<p><img src="/2021/02/20/docker%E5%AE%9E%E8%B7%B5-1/image01.png" alt="检测docker是否安装成功"></p>
+<p>ps: 关于环境的相关配置，可以自行百度或者google，有大量教程，一般安装失败，都是因为权限的问题（我所遇到的）</p>
+<h2 id="正式部署"><a href="#正式部署" class="headerlink" title="正式部署"></a>正式部署</h2><p>创建一个简单的文件，主要目录如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#96;-- your-app-name&#x2F;</span><br><span class="line">    |-- src&#x2F;</span><br><span class="line">        &#96;-- app.js  &#x2F;&#x2F; 随便写一些什么</span><br><span class="line">    &#96;-- Dockerfile   (we will create this in the following steps)</span><br></pre></td></tr></table></figure>
+
+<p>我们主要关注点是对Dockerfile文件的配置</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拉取node镜像源，如果本地没有，会自动从docker hub进行拉取</span></span><br><span class="line"><span class="keyword">FROM</span> node:latest</span><br><span class="line"><span class="comment"># 执行命令，创建文件夹 此处路径其实不用进行创建</span></span><br><span class="line"><span class="comment"># 在下一步的copy时，如果没有此文件，会自动在路径下创建文件</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir -p /home/nodeDemojs</span></span><br><span class="line"><span class="comment"># 复制文件  复制src下的文件到 /home/nodeDemojs</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> ./src /home/nodeDemojs</span></span><br><span class="line"><span class="comment"># 容器启动时执行的命令，类似npm run start</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;node&quot;</span>, <span class="string">&quot;/home/nodeDemojs/app.js&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="执行文件"><a href="#执行文件" class="headerlink" title="执行文件"></a>执行文件</h3><ol>
+<li><p>执行docker build</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker build -t 镜像名 .</span><br><span class="line">// 镜像名后可以跟版本号,格式如 镜像名:v1.0</span><br><span class="line">// 最后的 . 要特别注意，不能呢个省略，这个作用是绑定我们所执行的上线文</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行docker images, 查看我们所有的镜像</p>
+<p><img src="/2021/02/20/docker%E5%AE%9E%E8%B7%B5-1/image02.png" alt="查看我们当前的镜像"></p>
+</li>
+<li><p>执行docker run</p>
+<p>使用此指令，可以创建一个容器并运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3000:3000 docker-demo:v1.0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>-d：表示后台运行</p>
+</li>
+<li><p>-p：表示指定端口映射，（3000：3000）表示（本机端口：容器端口），3000是笔者的nestjs代码中监听的访问端口，也是容器对外暴露的端口</p>
+</li>
+<li><p>镜像名后面的:v1.0：表示打的tag号</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="一些常用的指令"><a href="#一些常用的指令" class="headerlink" title="一些常用的指令"></a>一些常用的指令</h2><ul>
+<li><p>查看镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>删除镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi 镜像ID</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看运行的容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>停止容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop 容器ID</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检测docker启动状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status docker.service</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/02/20/docker%E5%AE%9E%E8%B7%B5-1/image03.png" alt="检测docker启动状态"></p>
+</li>
+<li><p>启动docker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start docker.service</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 执行完上述指令后，再次查看docker当前的状态，执行sudo systemctl status docker.service</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>重启docker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart docker.service</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://zwdong.cn/2020/09/23/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%88%86%E4%BA%AB%E5%A4%B1%E6%95%88/">
     
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -563,14 +716,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -596,7 +749,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
